@@ -39,34 +39,34 @@ afterEach(() => {
 	productsDB = productBackup;
 });
 
-xdescribe("DELETE", () => {
-	it("Debería ser un metodo DELETE a '/product/:id'", async () => {
-		expect(deleteResponse.req.method).toBe("DELETE");
-		expect(deleteResponse.res.statusCode).toBe(200);
-	});
+// xdescribe("DELETE", () => {
+// 	it("Debería ser un metodo DELETE a '/product/:id'", async () => {
+// 		expect(deleteResponse.req.method).toBe("DELETE");
+// 		expect(deleteResponse.res.statusCode).toBe(200);
+// 	});
 
-	it("Al eliminar un producto debería devolver un objeto con las propiedades message y product", async () => {
+// 	it("Al eliminar un producto debería devolver un objeto con las propiedades message y product", async () => {
 
-		expect(deleteResponse.body.message).toBeDefined();
-		expect(deleteResponse.body.product).toBeDefined();
-	});
+// 		expect(deleteResponse.body.message).toBeDefined();
+// 		expect(deleteResponse.body.product).toBeDefined();
+// 	});
 
-	it("La propiedad message debe contener el string 'Producto Eliminado'", async () => {
-		expect(deleteResponse.body.message).toMatch(/producto eliminado/i);
-	});
+// 	it("La propiedad message debe contener el string 'Producto Eliminado'", async () => {
+// 		expect(deleteResponse.body.message).toMatch(/producto eliminado/i);
+// 	});
 
-	it("la propiedad 'product' debe contener el producto eliminado", async () => {
-		expect(deleteResponse.body.product.id).toBe(productId);
-		expect(typeof deleteResponse.body.product).toBe("object");
+// 	it("la propiedad 'product' debe contener el producto eliminado", async () => {
+// 		expect(deleteResponse.body.product.id).toBe(productId);
+// 		expect(typeof deleteResponse.body.product).toBe("object");
 
-		["name", "id", "description", "products"].forEach((property) => {
-			expect(deleteResponse.body.product).toHaveProperty(property);
+// 		["name", "id", "description", "products"].forEach((property) => {
+// 			expect(deleteResponse.body.product).toHaveProperty(property);
 
-		});
-	});
-});
+// 		});
+// 	});
+// });
 
-xdescribe("GET", () => {
+describe("GET", () => {
 	it("La ruta /product debería mostar el array de objetos", () => {
 		expect(getResponseProduct.body.length).toBe(2);
 		expect(typeof getResponseProduct.body).toBe("object");
@@ -75,17 +75,17 @@ xdescribe("GET", () => {
 		expect(getResponseBrandResult.body).toBeInstanceOf(Object);
 		expect(getResponseBrandResult.res.statusCode).toBe(200);
 	});
-	it("El objeto debería tener las propiedades 'brand,descripcion y product'", () => {
+	xit("El objeto debería tener las propiedades 'brand,descripcion y product'", () => {
 		["brand", "description", "product"].forEach((property) => {
 			expect(getResponseBrandResult.body).toHaveProperty(property);
 		});
 	});
-	it("Si no encuentra la marca buscada debería mostrar el mensaje 'Marca no encontrada'", () => {
+	xit("Si no encuentra la marca buscada debería mostrar el mensaje 'Marca no encontrada'", () => {
 		expect(getResponseBrand.text).toMatch(/marca no encontrada/i);
 	});
 });
 
-xdescribe("POST", () => {
+describe("POST", () => {
 	it("/product debería poder agregar un producto", async () => {
 		const RouteProducts = await api.get("/api/product");
 		const contents = RouteProducts.body.map((pdct) => pdct.name);
@@ -99,21 +99,21 @@ xdescribe("POST", () => {
 	});
 });
 
-xdescribe("PUT", () => {
-	it("/product/:id debería poder actualizar el nombre de un producto", () => {
-		let brandName = putResponse.body.brandsDB.filter(
-			(brnd) => brnd.name === replaceBrand.name
-		);
-		expect(brandName).toBeDefined();
-		expect(putResponse.res.statusCode).toBe(200);
-		expect(putResponse.req.method).toBe("PUT");
-	});
-	it("Si la modificacion se hizo correctamente, debria devolver un objeto con el atributo 'message: Producto Actualizado'", () => {
-		expect(putResponse.body.message).toMatch(/producto actualizado/i);
-		expect(putResponse.res.statusCode).toBe(200);
-	});
+// xdescribe("PUT", () => {
+// 	it("/product/:id debería poder actualizar el nombre de un producto", () => {
+// 		let brandName = putResponse.body.brandsDB.filter(
+// 			(brnd) => brnd.name === replaceBrand.name
+// 		);
+// 		expect(brandName).toBeDefined();
+// 		expect(putResponse.res.statusCode).toBe(200);
+// 		expect(putResponse.req.method).toBe("PUT");
+// 	});
+// 	it("Si la modificacion se hizo correctamente, debria devolver un objeto con el atributo 'message: Producto Actualizado'", () => {
+// 		expect(putResponse.body.message).toMatch(/producto actualizado/i);
+// 		expect(putResponse.res.statusCode).toBe(200);
+// 	});
 
-});
+// });
 
 
 // describe("GET",()=>{

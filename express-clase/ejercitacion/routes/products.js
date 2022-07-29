@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-let brandsDB = require("../utils/products");
+let productsDB = require("../utils/products");
 const {user,auth} = require("../middleware/admin");
 
 /************************************************************* 
@@ -11,7 +11,7 @@ http://localhost:3000/api/product/Logitech/1
 
 
 router.get("/product", (req, res) => {
-
+	res.json(productsDB);
 });
 
 
@@ -25,12 +25,14 @@ en este caso utilizamos las dos funciones que definimos en el archivo
 // esto no tiene test
 router.get("/user",user,auth,(req,res)=>{
 
+
+
 })
 
 
 
 router.get("/product", (req, res) => {
-	res.json(brandsDB);
+	
 });
 
 
@@ -40,6 +42,12 @@ router.get("/product", (req, res) => {
 //description, la descripcion de la marca
 //product, el producto entero que corresponde a esa marca
 router.get("/product/:brand/:productId?", (req, res) => {
+
+	const { brand, productId } = req.params;
+
+	let objGral = productsDB.find( e => e.name == brand);
+
+	res.send(objGral)
 
 });
 
@@ -59,6 +67,15 @@ http://localhost:3000/api/product
 
 router.post("/product", (req, res) => {
 
+	const { id, name, description } = req.body;
+
+	productsDB.push({id, name, description})
+
+	res.json({
+		message:'Marca agregada',
+		brand:'Iphone'
+	})
+
 });
 
 /**
@@ -71,6 +88,14 @@ http://localhost:3000/api/product/2
  * de la brand por el nombre que llega por body
  */
 router.put("/product/:id", (req, res) => {
+
+	const { id } = req.params;
+	const { name } = req.body;
+
+	let prod = productsDB.find( c => c.id == id)
+	prod.name = name
+
+	res.json(prod)
 	
 });
 
@@ -86,7 +111,12 @@ http://localhost:3000/api/product/1
  */
 router.delete("/product/:id", (req, res) => {
 	
+	const { id } = req.params;
 
+	let dame = productsDB.filter( c => c.id != id)
+	productsDB = productsDB.filter( c => c.id != id)
+
+	res.json(dame)
 });
 
 
